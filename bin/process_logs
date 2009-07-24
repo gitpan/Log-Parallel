@@ -1,0 +1,129 @@
+#!/usr/bin/perl
+
+package Log::Parallel::bin::process_logs;
+
+use strict;
+use warnings;
+use Log::Parallel;
+
+NOWARN: {
+	no warnings;
+	unless ($::testing_now) {
+		use warnings;
+		Log::Parallel::options();
+	}
+}
+
+1;
+
+__END__
+
+=head1 NAME
+
+process_logs - read, manipulate and report on various log files
+
+=head1 USAGE
+
+ process_logs [options] -c configuration_file.yml
+
+=head1 OPTIONS
+
+ -c --config_file file          	Specifies the configuration file
+ -a --reprocess_all             	Reprocess all files
+ --reprocess_from date          	Reprocess everything after [date]
+ -v --verbose                   	Increase debugging output (can be repeated)
+ --min_start_date date			Force all start dates to be at least [date]
+ --max_end_date date			Force all end dates to be no more than [date]
+ --priority_bias METHOD			Choose priorty adjustment from: 'random',  'date', 'depth'
+ --target_date DATE			For priority bias date & depth, aim for [date]
+ --ignore_code_dependencies, --no_code	Ignore dependencies on code 
+
+=head1 DESCRIPTION
+
+Process logs using the L<Log::Parallel> system.
+
+L<process_logs> is the driver script for processing data logs through a series of
+jobs specified in a configuration file.  
+
+Each job consists of a set of steps to process input files and create an 
+output file (possibly bucketized).  This very much like a map-reduce framework.
+The steps are:
+
+=over 10
+
+=item 1. Parse
+
+The first step is to parse the input files.  The input files can come
+from multiple places/steps and be in multiple formats.  They must all
+be sorted on the same fields so that they can be joined together in an
+ordered stream.  
+
+=item 2. Filter
+
+As items are read in, the filter code is executed.  Items are dropped
+unless the filter code returns a true value.
+
+=item 4. Group
+
+The items that make it past the filter can optionally be grouped together
+so that they're passed to the next starge as an array of items.
+
+=item 4. Transform
+
+The transform step consumes items and generate items.  It consumes items
+one-by-one (or one group at a time), but it can produce zero or many items 
+for each one it consumes.
+It can take events and squish them together into a session; or it can 
+take a session and break it apart into events; or it can take sessions
+and produce a single aggregated result when it had consumed all the input.
+
+=item 5. Bucketize
+
+As new resultant items are generated, they can be bucketized into 
+many buckets and split across a cluster.
+
+=item 6. Write 
+
+The resultant items are writen in the format specified.  Since the next
+step may run things though unix sort, the output format may need to be
+squished onto one line.
+
+=item 7. Sort
+
+The output files get sorted according to fields defined in the resultant
+items.
+
+=item 8. Post-Sort Transform
+
+If the writer had to encode the output for unix sort, it gets a chance to
+un-encode it after sorting so that it's in its desired format.
+
+=back
+
+=head1 CONFIGURATION FILE
+
+The configuration file is in YAML format and is preprocessed
+with L<YAML::ConfigFile> which provides some macro directives
+(include and define).
+
+It is post-processed with L<Config::Checker> which
+allows for some flexibility (sloppyness) on the part of 
+configuration writers.  Single items will be automatically turned
+into lists when needed.
+
+The configuration file has three several sections.  The main section
+is the one that defines the jobs that process logs does.
+
+The exact details of each section are described in L<Log::Parallel::ConfigCheck>.
+
+=head1 SEE ALSO
+
+The Parser API is defined in L<Log::Parallel::Parsers>.  The
+Writers API is defined in L<Log::Parallel::Writers>.  Descriptions
+of the steps can be found in L<Log::Parallel::ConfigCheck>.
+
+=head1 LICENSE
+
+This package may be used and redistributed under the terms of either
+the Artistic 2.0 or LGPL 2.1 license.
+
