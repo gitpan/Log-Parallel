@@ -10,7 +10,7 @@ use List::MoreUtils qw(uniq);
 use Time::ParseDate;
 use File::Flock;
 use Time::JulianDay;
-use YAML::ConfigFile::YAML;
+use Config::YAMLMacros::YAML;
 use File::Path;
 use File::Basename;
 use Log::Parallel::Misc qw(jd_data);
@@ -33,7 +33,7 @@ use Digest::MD5 qw(md5_hex);
 use Callback;
 require YAML;
 
-our $VERSION = 0.3;
+our $VERSION = 0.301;
 
 our @ISA = qw(Exporter);
 our @EXPORT = qw(make_task_list do_task_local get_files_by_srec add_recnums make_dependency_graph setup_slave_hosts);
@@ -57,7 +57,7 @@ my %checksum_cache;
 
 
 use Getopt::Long;
-use YAML::ConfigFile qw(get_config listify);
+use Config::YAMLMacros qw(get_config listify);
 use Log::Parallel::ConfigCheck;
 use File::Slurp::Remote::BrokenDNS qw($myfqdn %fqdnify);
 use YAML::Syck qw(Dump Load);
@@ -1051,7 +1051,7 @@ sets things up, figures out what jobs can run and in what order, and queues them
 to run.
 
 Everything it does is driven from the configuration data, probably parsed by
-L<YAML::ConfigFile> and validated by L<Log::Parallel::ConfigCheck>.
+L<Config::YAMLMacros> and validated by L<Log::Parallel::ConfigCheck>.
 
 Only one program, L<process_logs>, is expected to use this module.  As such, 
 documenting it's API is left as an exercise to the reader.  Use the source.

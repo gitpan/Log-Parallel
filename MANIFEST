@@ -26,4 +26,5 @@ MANIFEST			This list of files
 t/durations.t
 t/paths.t
 t/trim.t
+CHANGELOG
 META.yml                                 Module meta-data (added by MakeMaker)

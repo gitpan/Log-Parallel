@@ -158,7 +158,7 @@ Log::Parallel::ConfigCheck - Log processing configuration file validation
 
 =head1 SYNOPSIS
 
- use YAML::ConfigFile qw(get_config);
+ use Config::YAMLMacros qw(get_config);
  use Log::Parallel::ConfigCheck;
 
  my $config = get_config($config_file);
@@ -224,7 +224,7 @@ Which hosts should the output from this job be written to.
 B<Required>.
 What is the path name where output from this job should be written.
 The path name will undergo macro substitutions from 
-L<YAML::ConfigFile>, from L<Log::Parallel::Durations>, and from L<Log::Parallel::Task>.  These substitutions 
+L<Config::YAMLMacros>, from L<Log::Parallel::Durations>, and from L<Log::Parallel::Task>.  These substitutions 
 include:
 
 =over 10

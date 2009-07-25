@@ -3,7 +3,7 @@ package Log::Parallel::ltsv_to_tsv;
 
 use strict;
 use warnings;
-use YAML::ConfigFile::YAML;
+use Config::YAMLMacros::YAML;
 use File::Slurp::Remote::SmartOpen;
 use Getopt::Long;
 

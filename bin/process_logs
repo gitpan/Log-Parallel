@@ -103,7 +103,7 @@ un-encode it after sorting so that it's in its desired format.
 =head1 CONFIGURATION FILE
 
 The configuration file is in YAML format and is preprocessed
-with L<YAML::ConfigFile> which provides some macro directives
+with L<Config::YAMLMacros> which provides some macro directives
 (include and define).
 
 It is post-processed with L<Config::Checker> which

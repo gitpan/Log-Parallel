@@ -3,7 +3,7 @@
 
 use strict;
 use warnings;
-use YAML::ConfigFile::YAML;
+use Config::YAMLMacros::YAML;
 use File::Slurp::Remote::SmartOpen;
 
 my $metafile = shift;

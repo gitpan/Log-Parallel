@@ -9,10 +9,10 @@ use Log::Parallel::Task;
 use Log::Parallel::Task qw(%user_code_defaults %compile_fields);
 use Getopt::Long;
 use File::Basename;
-use YAML::ConfigFile qw(get_config listify);
+use Config::YAMLMacros qw(get_config listify);
 use Log::Parallel::ConfigCheck;
 use YAML::Syck;
-use YAML::ConfigFile::YAML;
+use Config::YAMLMacros::YAML;
 use Log::Parallel::Parsers;
 
 my $finished = 0;
