@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:                Log-Parallel
-version:             0.301
+version:             0.303
 abstract:            Parallel batch processing of log data
 license:             ~
 author:              
